@@ -6,11 +6,28 @@ export default function Details(props) {
   const { friendId, close } = props
   const [details, setDetails] = useState(null)
 
-  // 👉 TASK 4 - Create a side effect 🥇 that runs only after first render.
+  // 👉 TASK 4 - Create a side effect 🥇 that runs once and only once after first render.
+    useEffect(()=> {
+      console.log("This runs just ONCE as component is born! 🥇")
+
+      return () => { console.log("CLEANUP") }
+    }, [])  
 
   // 👉 TASK 5 - Create a side effect 👻 that runs only after first render
   // and puts a 'click' event handler on document.
   // See what happens if we don't clean up.
+  // document.addEventListener('click', () => console.log('document was clicked'))
+    useEffect(() => {
+      const listener = () => {
+        console.log('Document was clicked!') 
+      }
+
+      document.addEventListener('click', listener)
+
+      return () => {
+        document.removeEventListener('click', listener)
+      }
+    }, [])
 
   // 👉 TASK 6 - Create a side effect 🥵 that runs after every render.
 
