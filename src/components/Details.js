@@ -8,7 +8,7 @@ export default function Details(props) {
 
   // 👉 TASK 4 - Create a side effect 🥇 that runs once and only once after first render.
     useEffect(()=> {
-      console.log("This runs just ONCE as component is born! 🥇")
+      console.log("This runs just ONCE as component is born! after first render + DOM surgery 🥇")
 
       return () => { console.log("CLEANUP") }
     }, [])  
@@ -19,7 +19,7 @@ export default function Details(props) {
   // document.addEventListener('click', () => console.log('document was clicked'))
     useEffect(() => {
       const listener = () => {
-        console.log('Document was clicked!') 
+        // console.log('Document was clicked!  👻  ') 
       }
 
       document.addEventListener('click', listener)
@@ -30,11 +30,28 @@ export default function Details(props) {
     }, [])
 
   // 👉 TASK 6 - Create a side effect 🥵 that runs after every render.
+    useEffect(() => {
+      console.log("I run after the first render 🥵  and all others too")
+    })
+    console.log("****** RENDERING ******")
+
 
   // 👉 TASK 7 - Create a side effect 📲 that runs when a particular variable changes:
   // Whenever props.friendId updates we should trigger a fetch for details of the friend.
   // The URL should end up looking like `http://localhost:4000/friends/1?api_key=xyz`
   // On success, shove the details of the friend in `details` slice of state
+  const fetchFriendDetails = () => {
+      console.log("I run after the first render + DOM surgery, AND whenever friendId changes 📲 ")
+      axios.get(`${BASE_URL}/friends/${friendId}?api_key=${API_KEY}`)
+      .then(response => {
+        setDetails(response.data)
+      })
+      .catch(err => {
+        debugger
+      })
+    }
+
+    useEffect(fetchFriendDetails, [friendId])
 
   return (
     <div className='container'>
