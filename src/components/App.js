@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // 👉 TASK 1 - import the axios lib from node_modules
+import Axios from 'axios'
 
-// 👉 TASK 2 - import the contants from constants/index.js
+// 👉 TASK 2 - import the constants from constants/index.js
+import {API_KEY, BASE_URL } from '../constants/index'
 
 import Details from './Details'
 
@@ -16,6 +18,20 @@ export default function App() {
   const closeDetails = () => {
     setCurrentFriendId(null)
   }
+
+  // run ONCE after first render + DOM surgery
+  useEffect(() => {
+    Axios.get(`${BASE_URL}/friends?api_key=${API_KEY}`)
+    .then(response => {
+      setFriends(response.data)
+    })
+    .catch(error => {
+      debugger
+    })
+  }, [])
+
+  console.log('hello')
+
 
   // 👉 TASK 3 - make an effect that runs after FIRST DOM surgery
   // caused by the first render only. You'll need `useEffect` from React.
